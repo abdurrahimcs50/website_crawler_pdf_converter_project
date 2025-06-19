@@ -62,8 +62,6 @@ python app.py crawl
 # Scheduled crawls (every 6 hours)
 python app.py schedule --hours=6
 
-# Run tests
-python app.py test
 ```
 
 ## 📊 Sample Report

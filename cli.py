@@ -31,28 +31,5 @@ def crawl():
     """Run crawl once"""
     asyncio.run(run_crawl())
 
-@cli.command()
-@click.option('--hours', default=12, help='Schedule interval in hours')
-def schedule(hours):
-    """Start the scheduler"""
-    start_scheduler(hours)
-
-@cli.command()
-def test():
-    """Run tests"""
-    # Simple test to verify basic functionality
-    class TestCrawler(unittest.TestCase):
-        def test_filename_generation(self):
-            filename = file_utils.generate_filename("https://www.fdic.gov/risk-management-manual-examination-policies")
-            self.assertTrue(filename.endswith('.pdf'))
-            self.assertIn('example_com', filename)
-        
-        def test_checksum_calculation(self):
-            checksum1 = file_utils.calculate_checksum(b"test content")
-            checksum2 = file_utils.calculate_checksum(b"test content")
-            self.assertEqual(checksum1, checksum2)
-    
-    unittest.main(argv=[''], exit=False)
-
 if __name__ == "__main__":
     cli()
