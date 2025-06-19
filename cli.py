@@ -1,10 +1,8 @@
 import click
 import asyncio
-import unittest
-from crawler.scheduler import start_scheduler, scheduled_crawl_sync
+from crawler.scheduler import start_scheduler
 from crawler.web_crawler import WebCrawler
 from crawler.report_generator import ReportGenerator
-from utils import file_utils
 from crawler.config import config
 from utils.logging_utils import setup_logging
 import logging
@@ -21,6 +19,8 @@ async def run_crawl():
     # Pass dictionary to report generators
     ReportGenerator.generate_html_report(stats_dict)
     ReportGenerator.generate_json_report(stats_dict)
+    return stats_dict
+
 @click.group()
 def cli():
     """Website Crawler & PDF Converter CLI"""
@@ -30,6 +30,12 @@ def cli():
 def crawl():
     """Run crawl once"""
     asyncio.run(run_crawl())
+
+@cli.command()
+@click.option('--hours', default=12, type=int, help='Schedule interval in hours')
+def schedule(hours):
+    """Start the scheduler"""
+    start_scheduler(hours)
 
 if __name__ == "__main__":
     cli()
